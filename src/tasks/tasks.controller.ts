@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  ParseUUIDPipe,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -30,18 +30,20 @@ export class TasksController {
   getTaskById(@Param('id') id: string) {}
 
   @Post()
-  createTask(@Body() body: CreateTaskDto): Promise<Task> {
+  createTask(@Body() body: CreateTaskDto) {
     return this.tasksService.createTask(body);
   }
 
-  @Put('/:id/status')
+  @Put('/:id')
   updateTask(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id', ParseIntPipe) id: string,
     @Body() body: CreateTaskDto,
   ) {
     return this.tasksService.updateTask(id, body);
   }
 
   @Delete('/:id')
-  removeTask(@Param('id') id: string) {}
+  removeTask(@Param('id', ParseIntPipe) id: string) {
+    return this.tasksService.removeTask({ id });
+  }
 }
