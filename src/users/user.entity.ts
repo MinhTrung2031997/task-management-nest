@@ -1,6 +1,5 @@
 import { InternalServerErrorException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { Exclude } from 'class-transformer';
 import { IsNotEmpty } from 'class-validator';
 import {
   BeforeInsert,
@@ -21,9 +20,8 @@ export class User {
   @IsNotEmpty()
   username: string;
 
-  @Column({ select: false })
+  @Column()
   @IsNotEmpty()
-  @Exclude()
   password: string;
 
   @Column({ type: 'enum', array: true, enum: UserRole, default: [] })
