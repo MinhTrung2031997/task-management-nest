@@ -1,5 +1,9 @@
-import { IsEmpty } from 'class-validator';
+import { InternalServerErrorException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { Exclude } from 'class-transformer';
+import { IsNotEmpty } from 'class-validator';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -14,11 +18,12 @@ export class User {
   id: string;
 
   @Column()
-  @IsEmpty()
+  @IsNotEmpty()
   username: string;
 
-  @Column()
-  @IsEmpty()
+  @Column({ select: false })
+  @IsNotEmpty()
+  @Exclude()
   password: string;
 
   @Column({ type: 'enum', array: true, enum: UserRole, default: [] })
@@ -34,4 +39,17 @@ export class User {
   @Column({ default: Date })
   @UpdateDateColumn()
   updated_at: Date;
+
+  @BeforeInsert()
+  async hashPassword(): Promise<void> {
+    if (this.password) {
+      try {
+        this.password = await bcrypt.hash(this.password, 10);
+      } catch (e) {
+        throw new InternalServerErrorException(
+          'there are some issiue in the hash',
+        );
+      }
+    }
+  }
 }

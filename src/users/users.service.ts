@@ -10,12 +10,20 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
+  async getMe(id: string) {
+    return this.usersRepository.findOneBy({ id: id });
+  }
+
   async createUser(body: CreateUserDto) {
     const { username, password, roles } = body;
-    return this.usersRepository.save({
+
+    const user = this.usersRepository.create({
       username,
       password,
       roles,
     });
+    const resUser = await this.usersRepository.save(user);
+    delete resUser.password;
+    return resUser;
   }
 }
