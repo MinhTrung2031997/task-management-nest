@@ -1,3 +1,4 @@
+import { IsEmpty } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -5,21 +6,26 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { TaskStatus } from './task.status.enum';
+import { UserRole } from './user.role.enum';
 
 @Entity()
-export class Task {
+export class User {
   @PrimaryGeneratedColumn('increment')
   id: string;
 
   @Column()
-  title: string;
+  @IsEmpty()
+  username: string;
 
   @Column()
-  description: string;
+  @IsEmpty()
+  password: string;
 
-  @Column({ default: TaskStatus.OPEN })
-  status: TaskStatus;
+  @Column({ type: 'enum', array: true, enum: UserRole, default: [] })
+  roles: UserRole[];
+
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
 
   @Column({ default: Date })
   @CreateDateColumn()
