@@ -4,6 +4,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { TasksModule } from './modules/tasks/tasks.module';
@@ -12,7 +13,7 @@ import { UsersModule } from './modules/users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [databaseConfig],
+      load: [databaseConfig, appConfig],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
