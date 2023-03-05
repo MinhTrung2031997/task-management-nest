@@ -1,5 +1,6 @@
 import { InternalServerErrorException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { Exclude } from 'class-transformer';
 import { IsNotEmpty } from 'class-validator';
 import {
   BeforeInsert,
@@ -22,6 +23,7 @@ export class User {
 
   @Column()
   @IsNotEmpty()
+  @Exclude()
   password: string;
 
   @Column({ type: 'enum', array: true, enum: UserRole, default: [] })
@@ -37,6 +39,10 @@ export class User {
   @Column({ default: Date })
   @UpdateDateColumn()
   updated_at: Date;
+
+  constructor(partial: Partial<User>) {
+    Object.assign(this, partial);
+  }
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {
