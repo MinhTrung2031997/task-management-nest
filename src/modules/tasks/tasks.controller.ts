@@ -9,11 +9,14 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { Roles } from '../../decorators/roles.decorator';
+import { Role } from '../../enums/role.enum';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { Task } from './task.entity';
 import { TasksService } from './tasks.service';
 
+@Roles(Role.ADMIN, Role.USER)
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
@@ -37,7 +40,7 @@ export class TasksController {
   @Put('/:id')
   updateTask(
     @Param('id', ParseIntPipe) id: string,
-    @Body() body: CreateTaskDto,
+    @Body() body: Partial<CreateTaskDto>,
   ) {
     return this.tasksService.updateTask(id, body);
   }

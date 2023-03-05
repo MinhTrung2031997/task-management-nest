@@ -1,4 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Roles } from '../../decorators/roles.decorator';
+import { Role } from '../../enums/role.enum';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UsersService } from './users.service';
 
@@ -7,13 +9,9 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @Roles(Role.ADMIN)
   getList() {
     return this.usersService.getList();
-  }
-
-  @Get('/:id')
-  getMe(@Param('id') id: string) {
-    return this.usersService.getMe(id);
   }
 
   @Post()

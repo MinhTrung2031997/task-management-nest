@@ -21,7 +21,7 @@ export class TasksService {
     });
   }
 
-  async updateTask(id: string, body: CreateTaskDto) {
+  async updateTask(id: string, body: Partial<CreateTaskDto>) {
     const task = await this.tasksRepository.update({ id }, { ...body });
 
     if (!task.affected.valueOf()) {
