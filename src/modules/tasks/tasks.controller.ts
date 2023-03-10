@@ -8,21 +8,28 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../../Guards/jwt-auth.guard';
+import { RolesGuard } from '../../Guards/roles.guard';
 import { Roles } from '../../decorators/roles.decorator';
+import { User } from '../../decorators/user.decorator';
 import { Role } from '../../enums/role.enum';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { Task } from './task.entity';
 import { TasksService } from './tasks.service';
 
-@Roles(Role.ADMIN, Role.USER)
 @Controller('tasks')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Get()
+  @Roles(Role.USER)
   async getAllTasks(
+    @User() user,
+
     @Query()
     filerDto: GetTasksFilterDto,
   ): Promise<Task[]> {

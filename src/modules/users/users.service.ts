@@ -14,7 +14,7 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id: id });
   }
 
-  async createUser(body: CreateUserDto) {
+  async register(body: CreateUserDto) {
     const { username, password, roles } = body;
 
     const user = this.usersRepository.create({
