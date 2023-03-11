@@ -6,7 +6,7 @@ import { Auth } from './decorators/auth.decorator';
 import { User } from './decorators/user.decorator';
 import { Role } from './enums/role.enum';
 import { AuthService } from './modules/auth/auth.service';
-import { User as UserModel } from './modules/users/user.entity';
+import { UserEntity } from './modules/users/user.entity';
 
 @Controller()
 export class AppController {
@@ -34,19 +34,19 @@ export class AppController {
 
   @Get('admin')
   @Auth(Role.ADMIN)
-  onlyAdmin(@User() user: Partial<UserModel>) {
+  onlyAdmin(@User() user: Partial<UserEntity>) {
     return user;
   }
 
   @Get('user')
   @Auth(Role.USER)
-  onlyUser(@User() user: Partial<UserModel>) {
+  onlyUser(@User() user: Partial<UserEntity>) {
     return user;
   }
 
   @Get('issuer')
   @Auth(Role.ISSUER)
-  onlyIssuer(@User() user: Partial<UserModel>) {
+  onlyIssuer(@User() user: Partial<UserEntity>) {
     return user;
   }
 }

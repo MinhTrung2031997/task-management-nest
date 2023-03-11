@@ -21,13 +21,14 @@ export class RolesGuard extends AuthGuard('jwt') {
       context.getClass(),
     ]);
 
-    if (!requiredRoles) {
+    if (!user) {
+      throw new UnauthorizedException('Token is no provided or expired.');
+    }
+
+    if (!requiredRoles || requiredRoles.length === 0) {
       return true;
     }
 
-    if (!user) {
-      throw new UnauthorizedException('Token is invalid.');
-    }
     if (!user.roles || !requiredRoles.some((r) => user.roles.includes(r))) {
       throw new ForbiddenException(
         "You don't have permission to perform this action",
