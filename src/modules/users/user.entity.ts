@@ -7,13 +7,17 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { TaskEntity } from '../tasks/task.entity';
 import { UserRole } from './user.role.enum';
 
-@Entity()
-export class User {
+@Entity({
+  name: 'users',
+})
+export class UserEntity {
   @PrimaryGeneratedColumn('increment')
   id: string;
 
@@ -40,7 +44,10 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date;
 
-  constructor(partial: Partial<User>) {
+  @OneToMany(() => TaskEntity, (task) => task.user)
+  tasks: TaskEntity[];
+
+  constructor(partial: Partial<UserEntity>) {
     Object.assign(this, partial);
   }
 

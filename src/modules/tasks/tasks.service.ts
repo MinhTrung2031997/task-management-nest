@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { UserEntity } from '../users/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { Task } from './task.entity';
+import { TaskEntity } from './task.entity';
 import { TasksRepository } from './task.repository';
 import { TaskStatus } from './task.status.enum';
 
@@ -8,16 +9,21 @@ import { TaskStatus } from './task.status.enum';
 export class TasksService {
   constructor(private readonly tasksRepository: TasksRepository) {}
 
-  async getAllTasks(): Promise<Task[]> {
-    return this.tasksRepository.find();
+  async getAllTasks(): Promise<TaskEntity[]> {
+    return this.tasksRepository.find({
+      relations: {
+        user: true,
+      },
+    });
   }
 
-  async createTask(body: CreateTaskDto) {
+  async createTask(user: Partial<UserEntity>, body: CreateTaskDto) {
     const { title, description, status } = body;
     return this.tasksRepository.save({
       title,
       description,
       status: status ?? TaskStatus.OPEN,
+      user,
     });
   }
 

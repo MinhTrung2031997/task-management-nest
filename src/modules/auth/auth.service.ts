@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { User } from '../users/user.entity';
+import { UserEntity } from '../users/user.entity';
 import { UsersRepository } from '../users/user.repository';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class AuthService {
     return null;
   }
 
-  async login(user: Partial<User>) {
+  async login(user: Partial<UserEntity>) {
     const payload = {
       username: user.username,
       id: user.id,

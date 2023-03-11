@@ -2,13 +2,17 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { UserEntity } from '../users/user.entity';
 import { TaskStatus } from './task.status.enum';
 
-@Entity()
-export class Task {
+@Entity({
+  name: 'tasks',
+})
+export class TaskEntity {
   @PrimaryGeneratedColumn('increment')
   id: string;
 
@@ -28,4 +32,7 @@ export class Task {
   @Column({ default: Date })
   @UpdateDateColumn()
   updated_at: Date;
+
+  @ManyToOne(() => UserEntity, (user) => user.tasks)
+  user: Partial<UserEntity>;
 }

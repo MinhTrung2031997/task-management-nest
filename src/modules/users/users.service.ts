@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create.user.dto';
+import { UserEntity } from './user.entity';
 import { UsersRepository } from './user.repository';
 
 @Injectable()
@@ -7,7 +8,20 @@ export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
   async getList() {
-    return this.usersRepository.find();
+    return this.usersRepository.find({
+      relations: {
+        tasks: true,
+      },
+    });
+  }
+
+  getUserTasks(user: Partial<UserEntity>) {
+    return this.usersRepository.find({
+      where: { id: user.id },
+      relations: {
+        tasks: true,
+      },
+    });
   }
 
   async getMe(id: string) {

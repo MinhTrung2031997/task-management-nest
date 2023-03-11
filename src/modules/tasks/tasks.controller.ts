@@ -12,9 +12,10 @@ import {
 import { Auth } from '../../decorators/auth.decorator';
 import { User } from '../../decorators/user.decorator';
 import { Role } from '../../enums/role.enum';
+import { UserEntity } from '../users/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
-import { Task } from './task.entity';
+import { TaskEntity } from './task.entity';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
@@ -28,7 +29,7 @@ export class TasksController {
 
     @Query()
     filerDto: GetTasksFilterDto,
-  ): Promise<Task[]> {
+  ): Promise<TaskEntity[]> {
     return this.tasksService.getAllTasks();
   }
 
@@ -36,9 +37,12 @@ export class TasksController {
   getTaskById(@Param('id') id: string) {}
 
   @Post()
-  @Auth(Role.USER)
-  createTask(@Body() body: CreateTaskDto) {
-    return this.tasksService.createTask(body);
+  @Auth(Role.USER, Role.ADMIN, Role.ISSUER)
+  async createTask(
+    @User() user: Partial<UserEntity>,
+    @Body() body: CreateTaskDto,
+  ) {
+    return this.tasksService.createTask(user, body);
   }
 
   @Put('/:id')
