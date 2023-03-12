@@ -1,21 +1,12 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, UpdateDateColumn } from 'typeorm';
+import { AbstractEntity } from '../abstract.entity';
 import { UserEntity } from '../users/user.entity';
 import { TaskStatus } from './task.status.enum';
 
 @Entity({
   name: 'tasks',
 })
-export class TaskEntity {
-  @PrimaryGeneratedColumn('increment')
-  id: string;
-
+export class TaskEntity extends AbstractEntity {
   @Column()
   title: string;
 
@@ -24,10 +15,6 @@ export class TaskEntity {
 
   @Column({ default: TaskStatus.OPEN })
   status: TaskStatus;
-
-  @Column({ default: Date })
-  @CreateDateColumn()
-  created_at: Date;
 
   @Column({ default: Date })
   @UpdateDateColumn()

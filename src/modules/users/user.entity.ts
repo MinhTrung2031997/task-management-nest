@@ -5,22 +5,18 @@ import { IsNotEmpty } from 'class-validator';
 import {
   BeforeInsert,
   Column,
-  CreateDateColumn,
   Entity,
   OneToMany,
-  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { AbstractEntity } from '../abstract.entity';
 import { TaskEntity } from '../tasks/task.entity';
 import { UserRole } from './user.role.enum';
 
 @Entity({
   name: 'users',
 })
-export class UserEntity {
-  @PrimaryGeneratedColumn('increment')
-  id: string;
-
+export class UserEntity extends AbstractEntity {
   @Column()
   @IsNotEmpty()
   username: string;
@@ -37,10 +33,6 @@ export class UserEntity {
   isActive: boolean;
 
   @Column({ default: Date })
-  @CreateDateColumn()
-  created_at: Date;
-
-  @Column({ default: Date })
   @UpdateDateColumn()
   updated_at: Date;
 
@@ -48,6 +40,7 @@ export class UserEntity {
   tasks: TaskEntity[];
 
   constructor(partial: Partial<UserEntity>) {
+    super();
     Object.assign(this, partial);
   }
 

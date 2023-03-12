@@ -9,28 +9,29 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Auth } from '../../decorators/auth.decorator';
 import { User } from '../../decorators/user.decorator';
 import { Role } from '../../enums/role.enum';
+import { PageOptionsDto } from '../pagination/page-options.dto';
+import { PageDto } from '../pagination/page.dto';
 import { UserEntity } from '../users/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskEntity } from './task.entity';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
+@ApiTags('Task APIs')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Get()
   @Auth(Role.ADMIN)
-  async getAllTasks(
-    @User() user,
-
+  async getListTasks(
     @Query()
-    filerDto: GetTasksFilterDto,
-  ): Promise<TaskEntity[]> {
-    return this.tasksService.getAllTasks();
+    pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<TaskEntity>> {
+    return this.tasksService.getListTasks(pageOptionsDto);
   }
 
   @Get('/:id')

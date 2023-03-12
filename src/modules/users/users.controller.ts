@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Auth } from '../../decorators/auth.decorator';
 import { User } from '../../decorators/user.decorator';
 import { Role } from '../../enums/role.enum';
@@ -7,6 +8,7 @@ import { UserEntity } from './user.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
+@ApiTags('User APIs')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

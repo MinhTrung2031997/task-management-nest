@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from './Guards/jwt-auth.guard';
 import { LocalAuthGuard } from './Guards/local-auth.guard';
 import { AppService } from './app.service';
@@ -9,6 +10,7 @@ import { AuthService } from './modules/auth/auth.service';
 import { UserEntity } from './modules/users/user.entity';
 
 @Controller()
+@ApiTags('Auth APIs')
 export class AppController {
   constructor(
     private readonly appService: AppService,
@@ -27,7 +29,7 @@ export class AppController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('profile')
+  @Get('getMe')
   getProfile(@Request() req) {
     return req.user;
   }
