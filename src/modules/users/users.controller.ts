@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { Auth } from '../../decorators/auth.decorator';
 import { User } from '../../decorators/user.decorator';
 import { Role } from '../../enums/role.enum';
@@ -14,10 +19,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ description: 'Get all user by admin' })
-
-  /// Response Documentation
-  @ApiResponse({ status: 200, description: 'Return a list of user' })
-  @ApiResponse({
+  @ApiOkResponse({ status: 200, description: 'Return a list of user' })
+  @ApiUnauthorizedResponse({
     status: 401,
     description: 'Unauthorization',
   })
