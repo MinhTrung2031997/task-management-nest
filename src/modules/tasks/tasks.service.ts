@@ -17,6 +17,7 @@ export class TasksService {
   ): Promise<PageDto<TaskEntity>> {
     const queryBuilder = this.tasksRepository.createQueryBuilder('task');
     queryBuilder
+      .leftJoinAndSelect('task.user', 'user')
       .orderBy('task.created_at', pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
