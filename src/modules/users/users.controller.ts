@@ -5,9 +5,9 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { Auth } from '../../decorators/auth.decorator';
-import { User } from '../../decorators/user.decorator';
-import { Role } from '../../enums/role.enum';
+import { Auth } from '../../common/decorators/auth.decorator';
+import { User } from '../../common/decorators/user.decorator';
+import { Role } from '../../common/enums/role.enum';
 import { PageOptionsDto } from '../pagination/page-options.dto';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UserEntity } from './user.entity';

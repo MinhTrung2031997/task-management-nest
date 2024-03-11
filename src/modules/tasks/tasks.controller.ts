@@ -10,9 +10,9 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Auth } from '../../decorators/auth.decorator';
-import { User } from '../../decorators/user.decorator';
-import { Role } from '../../enums/role.enum';
+import { Auth } from '../../common/decorators/auth.decorator';
+import { User } from '../../common/decorators/user.decorator';
+import { Role } from '../../common/enums/role.enum';
 import { PageOptionsDto } from '../pagination/page-options.dto';
 import { PageDto } from '../pagination/page.dto';
 import { UserEntity } from '../users/user.entity';
