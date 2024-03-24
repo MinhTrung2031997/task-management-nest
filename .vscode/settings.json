@@ -4,9 +4,9 @@
   "editor.formatOnSave": true,
   "[typescript]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true,
+      "source.organizeImports": "explicit"
     },
     "editor.insertSpaces": false
   },
-  "typescript.preferences.importModuleSpecifier":"relative"
+  "typescript.preferences.importModuleSpecifier": "relative"
 }

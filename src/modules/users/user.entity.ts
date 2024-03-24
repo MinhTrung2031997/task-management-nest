@@ -9,14 +9,14 @@ import {
   OneToMany,
   UpdateDateColumn,
 } from 'typeorm';
-import { AbstractEntity } from '../abstract.entity';
+import { BaseEntity } from '../../common/shared/base/base.entity';
 import { TaskEntity } from '../tasks/task.entity';
 import { UserRole } from './user.role.enum';
 
 @Entity({
   name: 'users',
 })
-export class UserEntity extends AbstractEntity {
+export class UserEntity extends BaseEntity {
   @Column()
   @IsNotEmpty()
   username: string;

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   DeepPartial,
   FindManyOptions,
@@ -8,7 +9,7 @@ import {
 import { BaseEntity } from './base.entity';
 import { BaseInterfaceRepository } from './base.interface';
 
-export abstract class BaseAbstractRepostitory<T extends BaseEntity>
+export abstract class BaseAbstractRepository<T extends BaseEntity>
   implements BaseInterfaceRepository<T>
 {
   private entity: Repository<T>;
