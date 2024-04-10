@@ -23,6 +23,8 @@ cache:
 
 build-source-dev:
   stage: build
+  extends:
+    - .standard-rules
   script:
     - node --version
     - yarn install
@@ -33,11 +35,15 @@ build-source-dev:
 
 linting:
   stage: lint
+  extends:
+    - .standard-rules
   script:
     - npm run lint
 
 testing:
   stage: test
+  extends:
+    - .standard-rules
   script:
     - npm test -- --coverage --coverageDirectory=$COVERAGE_DIR
   coverage: '/^Statements\s*:\s*100%\s*$/'
