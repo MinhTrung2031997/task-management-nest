@@ -21,13 +21,10 @@ cache:
   paths:
     - '$CACHE_DIR'
 
-before_script:
-  - nvm install $NODE_VERSION
-  - node --version
-
 build-source-dev:
   stage: build
   script:
+    - node --version
     - yarn install
     - yarn build
   artifacts:
