@@ -1,14 +1,19 @@
-import { Column, Entity, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class BaseEntity {
-  @Column()
+  @PrimaryGeneratedColumn('increment')
   id: string;
 
-  @Column({ default: Date })
+  @Column({ default: new Date() })
   createdAt: Date;
 
-  @Column({ default: Date })
+  @Column({ default: new Date() })
   @UpdateDateColumn()
   updateAt: Date;
 }

@@ -1,13 +1,14 @@
-import { Column, Entity, ManyToOne, UpdateDateColumn } from 'typeorm';
-import { AbstractEntity } from '../abstract.entity';
+import { Column, Entity, Index, ManyToOne } from 'typeorm';
+import { BaseEntity } from '../../common/shared/base/base.entity';
 import { UserEntity } from '../users/user.entity';
 import { TaskStatus } from './task.status.enum';
 
 @Entity({
   name: 'tasks',
 })
-export class TaskEntity extends AbstractEntity {
+export class TaskEntity extends BaseEntity {
   @Column()
+  @Index()
   title: string;
 
   @Column()
@@ -16,10 +17,7 @@ export class TaskEntity extends AbstractEntity {
   @Column({ default: TaskStatus.OPEN })
   status: TaskStatus;
 
-  @Column({ default: Date })
-  @UpdateDateColumn()
-  updated_at: Date;
-
+  @Index()
   @ManyToOne(() => UserEntity, (user) => user.tasks)
   user: Partial<UserEntity>;
 }

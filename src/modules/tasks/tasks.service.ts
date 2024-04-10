@@ -1,16 +1,20 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PageMetaDto } from '../pagination/page-meta.dto';
 import { PageOptionsDto } from '../pagination/page-options.dto';
 import { PageDto } from '../pagination/page.dto';
 import { UserEntity } from '../users/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskEntity } from './task.entity';
+import { TaskRepositoryInterface } from './task.interface';
 import { TasksRepository } from './task.repository';
 import { TaskStatus } from './task.status.enum';
 
 @Injectable()
 export class TasksService {
-  constructor(private readonly tasksRepository: TasksRepository) {}
+  constructor(
+    @Inject(TaskRepositoryInterface)
+    private readonly tasksRepository: TasksRepository,
+  ) {}
 
   async getListTasks(
     pageOptionsDto: PageOptionsDto,
@@ -18,12 +22,14 @@ export class TasksService {
     const queryBuilder = this.tasksRepository.createQueryBuilder('task');
     queryBuilder
       .leftJoinAndSelect('task.user', 'user')
-      .orderBy('task.created_at', pageOptionsDto.order)
+      .orderBy('task.createdAt', pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
 
-    const itemCount = await queryBuilder.getCount();
-    const { entities } = await queryBuilder.getRawAndEntities();
+    const [itemCount, { entities }] = await Promise.all([
+      queryBuilder.getCount(),
+      queryBuilder.getRawAndEntities(),
+    ]);
 
     const pageMetaDto = new PageMetaDto({ pageOptionsDto, itemCount });
 

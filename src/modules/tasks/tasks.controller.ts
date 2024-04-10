@@ -35,7 +35,9 @@ export class TasksController {
   }
 
   @Get('/:id')
-  getTaskById(@Param('id') id: string) {}
+  getTaskById(@Param('id') id: string) {
+    return id;
+  }
 
   @Post()
   @Auth(Role.USER, Role.ADMIN, Role.ISSUER)

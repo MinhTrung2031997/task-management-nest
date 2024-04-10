@@ -1,18 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { BaseRepositoryInterface } from '../../common/shared/base/base.interface';
 import { BaseAbstractRepository } from '../../common/shared/base/base.repository';
-import { UserEntity as User } from './user.entity';
-import { UserRepositoryInterface } from './user.interface';
+import { UserEntity } from './user.entity';
 
 @Injectable()
-export class UserRepository
-  extends BaseAbstractRepository<User>
-  implements UserRepositoryInterface
+export class UsersRepository
+  extends BaseAbstractRepository<UserEntity>
+  implements BaseRepositoryInterface<UserEntity>
 {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private usersRepository: Repository<UserEntity>,
   ) {
-    super(userRepository);
+    super(usersRepository);
   }
 }

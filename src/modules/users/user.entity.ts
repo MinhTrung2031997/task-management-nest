@@ -2,13 +2,7 @@ import { InternalServerErrorException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import { IsNotEmpty } from 'class-validator';
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  OneToMany,
-  UpdateDateColumn,
-} from 'typeorm';
+import { BeforeInsert, Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/shared/base/base.entity';
 import { TaskEntity } from '../tasks/task.entity';
 import { UserRole } from './user.role.enum';
@@ -31,10 +25,6 @@ export class UserEntity extends BaseEntity {
 
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
-
-  @Column({ default: Date })
-  @UpdateDateColumn()
-  updated_at: Date;
 
   @OneToMany(() => TaskEntity, (task) => task.user)
   tasks: TaskEntity[];

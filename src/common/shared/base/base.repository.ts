@@ -1,16 +1,21 @@
 /* eslint-disable prettier/prettier */
 import {
   DeepPartial,
+  DeleteResult,
   FindManyOptions,
   FindOneOptions,
   FindOptionsWhere,
+  QueryRunner,
   Repository,
+  SelectQueryBuilder,
+  UpdateResult,
 } from 'typeorm';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { BaseEntity } from './base.entity';
-import { BaseInterfaceRepository } from './base.interface';
+import { BaseRepositoryInterface } from './base.interface';
 
 export abstract class BaseAbstractRepository<T extends BaseEntity>
-  implements BaseInterfaceRepository<T>
+  implements BaseRepositoryInterface<T>
 {
   private entity: Repository<T>;
   protected constructor(entity: Repository<T>) {
@@ -18,7 +23,7 @@ export abstract class BaseAbstractRepository<T extends BaseEntity>
   }
 
   public async save(data: DeepPartial<T>): Promise<T> {
-    return await this.entity.save(data);
+    return this.entity.save(data);
   }
 
   public async saveMany(data: DeepPartial<T>[]): Promise<T[]> {
@@ -37,30 +42,54 @@ export abstract class BaseAbstractRepository<T extends BaseEntity>
     const options: FindOptionsWhere<T> = {
       id: id,
     };
-    return await this.entity.findOneBy(options);
+    return this.entity.findOneBy(options);
   }
 
   public async findByCondition(filterCondition: FindOneOptions<T>): Promise<T> {
-    return await this.entity.findOne(filterCondition);
+    return this.entity.findOne(filterCondition);
   }
 
   public async findWithRelations(relations: FindManyOptions<T>): Promise<T[]> {
-    return await this.entity.find(relations);
+    return this.entity.find(relations);
   }
 
   public async findAll(options?: FindManyOptions<T>): Promise<T[]> {
-    return await this.entity.find(options);
+    return this.entity.find(options);
   }
 
   public async remove(data: T): Promise<T> {
-    return await this.entity.remove(data);
+    return this.entity.remove(data);
+  }
+
+  public async delete(options: FindOptionsWhere<T>): Promise<DeleteResult> {
+    return this.entity.delete(options);
   }
 
   public async preload(entityLike: DeepPartial<T>): Promise<T> {
-    return await this.entity.preload(entityLike);
+    return this.entity.preload(entityLike);
   }
 
   public async findOne(options: FindOneOptions<T>): Promise<T> {
     return this.entity.findOne(options);
+  }
+
+  public async findOneBy(
+    where: FindOptionsWhere<T> | FindOptionsWhere<T>[],
+  ): Promise<T | null> {
+    return this.entity.findOneBy(where);
+  }
+
+  public async update(
+    options: FindOptionsWhere<T>,
+    partialEntity: QueryDeepPartialEntity<T>,
+  ): Promise<UpdateResult> {
+    return this.entity.update(options, partialEntity);
+  }
+
+  public createQueryBuilder(
+    alias?: string,
+    queryRunner?: QueryRunner,
+  ): SelectQueryBuilder<T> {
+    return this.entity.createQueryBuilder(alias, queryRunner);
   }
 }

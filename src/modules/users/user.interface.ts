@@ -1,4 +1,5 @@
-import { BaseInterfaceRepository } from '../../common/shared/base/base.interface';
-import { UserEntity as User } from './user.entity';
+import { BaseRepositoryInterface } from '../../common/shared/base/base.interface';
+import { UserEntity } from './user.entity';
 
-export type UserRepositoryInterface = BaseInterfaceRepository<User>;
+export type UserRepositoryInterface = BaseRepositoryInterface<UserEntity>;
+export const UserRepositoryInterface = Symbol.for('UserRepositoryInterface');

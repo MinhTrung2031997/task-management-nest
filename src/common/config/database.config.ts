@@ -7,6 +7,4 @@ export default registerAs('database', () => ({
   username: process.env.POSTGRES_USERNAME,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE,
-  autoLoadEntities: true,
-  synchronize: true,
 }));
