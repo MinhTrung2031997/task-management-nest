@@ -34,5 +34,5 @@ build-source-dev:
 unit_test:
   stage: test
   script:
-    - yarn test:cov'
+    - npm test -- --coverage --coverageDirectory=$COVERAGE_DIR
   # coverage: '/Code coverage: \d+(?:\.\d+)?/'
