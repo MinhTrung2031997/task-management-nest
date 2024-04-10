@@ -4,7 +4,7 @@ stages:
   - test
 
 default:
-  image: node
+  image: node:18.17.1
 
 .standard-rules:
   rules:
@@ -12,7 +12,6 @@ default:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 variables:
-  NODE_VERSION: '18.17.1'
   CACHE_DIR: '$CI_PROJECT_DIR/node_modules'
   TEST_REPORTS_DIR: '$CI_PROJECT_DIR/test-reports'
   COVERAGE_DIR: '$CI_PROJECT_DIR/coverage'
@@ -41,6 +40,7 @@ testing:
   stage: test
   script:
     - npm test -- --coverage --coverageDirectory=$COVERAGE_DIR
+  coverage: '/^Statements\s*:\s*100%\s*$/'
   artifacts:
     paths:
       - '$COVERAGE_DIR/'
