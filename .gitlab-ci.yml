@@ -3,7 +3,7 @@ stages:
   - test
 
 default:
-  image: node
+  image: node:18.17.1
 
 .standard-rules:
   rules:
@@ -31,8 +31,15 @@ build-source-dev:
     paths:
       - 'build/'
 
-unit_test:
+linting:
+  stage: lint
+  script:
+    - npm run lint
+
+testing:
   stage: test
   script:
     - npm test -- --coverage --coverageDirectory=$COVERAGE_DIR
-  # coverage: '/Code coverage: \d+(?:\.\d+)?/'
+  artifacts:
+    paths:
+      - '$COVERAGE_DIR/'
