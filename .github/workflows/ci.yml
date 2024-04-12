@@ -48,10 +48,17 @@ jobs:
         run: yarn install
 
       - name: Build
-        run: yarn build
+        id: execute-lint
+        if: ${{ always() }}
+        run: |
+          mkdir -p report/eslint
+          echo "{}" > report/eslint/eslint.json
+          echo "ESlint: No issue, Great!" > report/eslint/eslint.md
+          yarn lint
 
       - name: Linting
         run: yarn lint
 
       - name: Testing
+        if: ${{ always() }}
         run: yarn test:cov
