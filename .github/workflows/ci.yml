@@ -44,10 +44,12 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Install dependencies
-        run: yarn install
+      - name: Install dependencies & build
+        run: |
+          yarn install
+           yarn build
 
-      - name: Build
+      - name: Linting
         id: execute-lint
         if: ${{ always() }}
         run: |
@@ -55,9 +57,6 @@ jobs:
           echo "{}" > report/eslint/eslint.json
           echo "ESlint: No issue, Great!" > report/eslint/eslint.md
           yarn lint
-
-      - name: Linting
-        run: yarn lint
 
       - name: Testing
         if: ${{ always() }}
