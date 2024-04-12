@@ -47,7 +47,7 @@ jobs:
       - name: Install dependencies & build
         run: |
           yarn install
-           yarn build
+          yarn build
 
       - name: Linting
         id: execute-lint
