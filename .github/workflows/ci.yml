@@ -37,17 +37,19 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          path: ~/.yarn
+          path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Install dependencies & build
-        run: |
-          yarn install
-          yarn build
+      - name: Install dependencies
+        if: steps.cache-yarn.outputs.cache-hit != 'true'
+        run: yarn install
+
+      - name: Build-source-code
+        run: yarn build
 
       - name: Linting
         id: execute-lint
