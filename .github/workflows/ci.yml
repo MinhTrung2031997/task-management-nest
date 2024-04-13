@@ -56,5 +56,4 @@ jobs:
 
       - name: Linting
         id: execute-lint
-        if: ${{ always() }}
         run: yarn lint
