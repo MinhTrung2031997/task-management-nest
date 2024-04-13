@@ -32,7 +32,7 @@ jobs:
           registry-url: https://npm.pkg.github.com
 
       - name: Cache node modules
-        id: cache-npm
+        id: cache-node-module
         uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
