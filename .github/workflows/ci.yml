@@ -52,11 +52,7 @@ jobs:
       - name: Linting
         id: execute-lint
         if: ${{ always() }}
-        run: |
-          mkdir -p report/eslint
-          echo "{}" > report/eslint/eslint.json
-          echo "ESlint: No issue, Great!" > report/eslint/eslint.md
-          yarn lint
+        run: yarn lint
 
       - name: Testing
         if: ${{ always() }}
