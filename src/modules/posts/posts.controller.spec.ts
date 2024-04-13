@@ -13,6 +13,6 @@ describe('PostsController', () => {
   });
 
   it('should be defined', () => {
-    expect(controller).toEqual(1);
+    expect(controller).toBeDefined();
   });
 });

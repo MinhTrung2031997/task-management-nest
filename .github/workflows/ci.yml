@@ -32,7 +32,7 @@ jobs:
           registry-url: https://npm.pkg.github.com
 
       - name: Cache node modules
-        id: cache-yarn
+        id: cache-npm
         uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
@@ -45,15 +45,18 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install dependencies
-        run: yarn install
+        run: |
+          echo ${{ steps.cache-npm.outputs.cache-hit }}
+          yarn install
 
       - name: Build-source-code
         run: yarn build
 
+      - name: Linting
+        id: execute-lint
+        if: ${{ always() }}
+        run: yarn lint
+
       - name: Testing
         if: ${{ always() }}
         run: yarn test:cov
-
-      - name: Linting
-        id: execute-lint
-        run: yarn lint
