@@ -45,9 +45,8 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install dependencies
-        run: |
-          echo ${{ steps.cache-npm.outputs.cache-hit }}
-          yarn install
+        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        run: yarn install
 
       - name: Build-source-code
         run: yarn build
